@@ -2,9 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import { App } from './presentation/screens';
+import { AppProvider } from '@pixi/react';
+import { Application } from 'pixi.js';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
+const app = new Application();
+
+root.render(
   <React.StrictMode>
-    <App />
+    <AppProvider value={app}>
+      <App />
+    </AppProvider>
   </React.StrictMode>
 );

@@ -1,14 +1,8 @@
-import {
-  AnimatedSprite,
-  Container,
-  Sprite,
-  Stage,
-  Text,
-  useTick,
-} from '@pixi/react';
+import { AnimatedSprite, Container, Stage, useApp, useTick } from '@pixi/react';
 import './App.css';
-import { useEffect, useMemo, useRef } from 'react';
-import { BlurFilter, Texture } from 'pixi.js';
+import { useEffect, useState } from 'react';
+import { Texture } from 'pixi.js';
+import Teste from '../../../../public/teste.json';
 import * as PIXI from 'pixi.js';
 
 const stageProps = {
@@ -21,96 +15,55 @@ const stageProps = {
   },
 };
 
-const textPositionX = stageProps.width / 2;
-const textPositionY = stageProps.height / 2;
+const spritesheetImage = 'numbersSheet.png';
+const spritesheetMap = {
+  frameWidth: 100,
+  frameHeight: 100,
+  frames: 10,
+};
 
-function Canvas() {
-  const blurFilter = useMemo(() => new BlurFilter(4), []);
+const [width, height] = [500, 500];
+const spritesheet = Teste;
 
-  return (
-    <Stage onMount={() => console.log('Lienzo Montado')} {...stageProps}>
-      <Container
-        x={textPositionX}
-        y={textPositionY}
-        width={250}
-        height={100}
-        clip={true}
-      >
-        <Sprite
-          image="cover.png"
-          width={250}
-          height={250}
-          anchor={{ x: 0.5, y: 0.5 }}
-        />
-      </Container>
-      <Container x={textPositionX} y={textPositionY}>
-        <Sprite
-          image="numbers.png"
-          width={100}
-          height={900}
-          anchor={{ x: 0.5, y: 0.5 }}
-        />
+const JetFighter = () => {
+  const [frames, setFrames] = useState([]);
+  const [rot, setRot] = useState(0);
 
-        {/* <Text
-          text="Hello World"
-          anchor={{ x: 0.5, y: 0.5 }}
-          filters={[blurFilter]}
-        /> */}
-      </Container>
-    </Stage>
-  );
-}
+  useTick((delta) => setRot((r) => r + 0.01 * delta));
 
-function NumberSlotAnimation() {
-  const numberSprites = useRef([]);
-  const numbersCount = 10;
-  const numbersTextures = [];
+  let loader = PIXI.Loader.shared;
 
-  for (let i = 0; i < numbersCount; i++) {
-    const texture = Texture.from(`ruta/numero_${i}.png`);
-    numbersTextures.push(texture);
+  console.log('=>', loader);
+
+  // useEffect(() => {
+  //   const textures = spritesheet.map((frame) => spritesheet.textures[frame]);
+  //   setFrames(textures);
+  // }, []);
+
+  if (frames.length === 0) {
+    return null;
   }
 
-  useEffect(() => {
-    numberSprites.current.forEach((sprite) => {
-      sprite.animationSpeed = 0.2;
-      sprite.loop = false;
-      sprite.currentFrame = Math.floor(Math.random() * numbersCount);
-    });
-  }, []);
-
-  useTick((delta) => {
-    numberSprites.current.forEach((sprite) => {
-      sprite.currentFrame =
-        (sprite.currentFrame + delta * sprite.animationSpeed) % numbersCount;
-    });
-  });
-
-  const handleSpriteRef = (sprite) => {
-    if (sprite && !numberSprites.current.includes(sprite)) {
-      numberSprites.current.push(sprite);
-    }
-  };
-
   return (
-    <Stage>
-      <Sprite ref={handleSpriteRef} image="cover.png" />
-      {numberSprites.current.map((sprite, index) => (
-        <Sprite
-          key={index}
-          ref={handleSpriteRef}
-          texture={numbersTextures[0]}
+    <Stage width={400} height={400}>
+      <Container rotation={rot} x={width / 2} y={height / 2}>
+        <AnimatedSprite
+          animationSpeed={0.5}
+          isPlaying={true}
+          textures={spritesheet}
+          // currentFrame={currentFrame}
+          anchor={0.5}
         />
-      ))}
+      </Container>
     </Stage>
   );
-}
+};
 
 function App() {
   return (
     <div className="container">
-      <h1>ViteProject</h1>
-      <NumberSlotAnimation />
+      <h1>Pixi React Animation</h1>
+      <JetFighter />
     </div>
   );
 }
