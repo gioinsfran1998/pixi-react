@@ -1,44 +1,104 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import * as S from './style';
-
+import { useAnimation } from 'framer-motion';
 const images = [
-  'numbers/0.png',
-  'numbers/1.png',
-  'numbers/2.png',
-  'numbers/3.png',
-  'numbers/4.png',
-  'numbers/5.png',
-  'numbers/6.png',
-  'numbers/7.png',
-  'numbers/8.png',
-  'numbers/9.png',
+  'numbersBg/bg_0.png',
+  'numbersBg/bg_1.png',
+  'numbersBg/bg_2.png',
+  'numbersBg/bg_3.png',
+  'numbersBg/bg_4.png',
+  'numbersBg/bg_5.png',
+  'numbersBg/bg_6.png',
+  'numbersBg/bg_7.png',
+  'numbersBg/bg_8.png',
+  'numbersBg/bg_9.png',
 ];
 
-const WheelFramer = ({ target, idxRell }) => {
+const WheelFramer = ({ target, idxRell, start, setStartAnimation }) => {
   const imgPositionInWheel = (idx) => -idx * (360 / images.length);
+  // const reelsAnimation = useAnimation();
+  const rellsAnimation = [
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+    useAnimation(),
+  ];
 
+  const handleAnimationReels = async () => {
+    for (let i = 0; i < 10; i++) {
+      await rellsAnimation[i].start({
+        rotateX: 360 * (target + 1) + imgPositionInWheel(i - target),
+        transition: {
+          duration: 0,
+        },
+      });
+    }
+
+    rellsAnimation.map(async (animation, idxRellAnimation) => {
+      return await animation.start({
+        rotateX:
+          -360 * (target + 1) + imgPositionInWheel(idxRellAnimation - target),
+        transition: {
+          duration: 3,
+          ease: [0.1, 0, 0.2, 1],
+          type: 'easeInOut',
+          stiffness: 50,
+        },
+      });
+    });
+
+    // setStartAnimation(false);
+  };
+
+  useEffect(() => {
+    if (start) {
+      handleAnimationReels();
+    }
+  }, [start]);
   return (
-    <S.Container>
-      <S.Wrapper>
-        {images.map((url, idx) => {
-          return (
-            <S.Roll
-              key={idx}
-              src={url}
-              style={{
-                originZ: -150,
-                rotateX: imgPositionInWheel(idx),
-              }}
-              animate={{
-                rotateX:
-                  -360 * (-target + 1) + imgPositionInWheel(idx - target),
-              }}
-              transition={{ type: 'tween', duration: 2, delay: 1 * idxRell }}
-            />
-          );
-        })}
-      </S.Wrapper>
-    </S.Container>
+    <>
+      {/* <button onClick={handleAnimationReels}>oiii</button> */}
+      <S.Container>
+        <S.Wrapper>
+          {rellsAnimation.map((url, idx) => {
+            return (
+              <S.Roll
+                key={idx}
+                // src={url}
+                initial={{
+                  rotateX: imgPositionInWheel(idx),
+                }}
+                style={{
+                  originZ: -150,
+                  // rotateX: imgPositionInWheel(idx),
+                }}
+                // animate={{
+                //   rotateX: start
+                //     ?
+                //     : imgPositionInWheel(idx),
+                // }}
+                animate={rellsAnimation[idx]}
+                // transition={{
+                //   // duration: idxRell ? 3 * idxRell : 1,
+                //   duration: 3,
+                //   ease: [0.1, 0, 0.2, 1],
+                //   // type: 'easeInOut',
+                //   // stiffness: 50,
+                // }}
+              >
+                <S.Label>{idx}</S.Label>
+              </S.Roll>
+            );
+          })}
+        </S.Wrapper>
+      </S.Container>
+    </>
   );
 };
 
