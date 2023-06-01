@@ -26,11 +26,9 @@ export const Content = styled(motion.div)`
   background: beige;
   display: flex;
   align-items: center;
-  min-width: 1000px;
-
   height: 200px;
-  /* width: 300px; */
-  /* overflow: hidden; */
+
+  ${(length) => `min-width: ${length}px`};
 `;
 
 export const Box = styled(motion.div)`
