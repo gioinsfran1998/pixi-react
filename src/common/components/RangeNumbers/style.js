@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   background: red;
@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   gap: 20px;
-`;
+`
 
 export const Center = styled(motion.div)`
   background: blue;
@@ -20,7 +20,7 @@ export const Center = styled(motion.div)`
   height: 300px;
   width: 300px;
   overflow: hidden;
-`;
+`
 
 export const Content = styled(motion.div)`
   background: beige;
@@ -29,7 +29,7 @@ export const Content = styled(motion.div)`
   height: 200px;
 
   ${(length) => `min-width: ${length}px`};
-`;
+`
 
 export const Box = styled(motion.div)`
   display: flex;
@@ -42,4 +42,4 @@ export const Box = styled(motion.div)`
   /* border: 1px solid #000; */
   font-size: 2rem;
   background: yellow;
-`;
+`

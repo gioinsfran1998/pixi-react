@@ -1,9 +1,9 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
+import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 export const Container = styled.div`
   position: relative;
-`;
+`
 
 export const Wrapper = styled(motion.div)`
   position: relative;
@@ -12,7 +12,7 @@ export const Wrapper = styled(motion.div)`
   /* perspective: 50cm; */
   perspective: 5cm;
   /* background: red; */
-`;
+`
 
 export const Roll = styled(motion.div)`
   display: flex;
@@ -25,7 +25,7 @@ export const Roll = styled(motion.div)`
   width: 100%;
   backface-visibility: hidden;
   font-size: 100px;
-`;
+`
 
 export const Label = styled(motion.label)`
   font-family: 'Koulen', cursive;
@@ -54,4 +54,4 @@ export const Label = styled(motion.label)`
   /* border: 1px solid #050505; */
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.25);
   -webkit-text-stroke: 3px solid #000000;
-`;
+`

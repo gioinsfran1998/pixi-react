@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import * as S from './style';
 import { useAnimation } from 'framer-motion';
+import React, { useState } from 'react';
 import { generateArrayNumbers, generateRandomNumber } from '../../utils';
+import * as S from './style';
 
 const arrayFijo = [
   {
@@ -87,7 +87,7 @@ const RangeNumbers = () => {
   const WIDTH_RANGE_CONTAINER = length * WIDTH_BOX;
 
   const randomNumber = generateRandomNumber(0, 100);
-  const [useRange, setUseRange] = useState(randomNumber);
+  const [useRange, setUseRange] = React.useState(randomNumber);
   const arrNumbers = generateArrayNumbers(useRange, 11);
 
   const [rangeNumbers, setRangeNumbers] = useState(arrNumbers);

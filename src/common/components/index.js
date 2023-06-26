@@ -1,3 +1,3 @@
-import NumberDrawAnimation from './NumberDrawAnimation/NumberDrawAnimation';
+import NumberDrawAnimation from './NumberDrawAnimation/NumberDrawAnimation'
 
-export { NumberDrawAnimation };
+export { NumberDrawAnimation }
